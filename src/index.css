@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Trebuchet MS", "Segoe UI", "Gill Sans", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  --brand-bg: #f6f8f2;
+  --brand-card: #f9faf7;
+  --brand-soft: #eef4d8;
+  --brand-accent: #a6c40d;
+  --brand-accent-strong: #96b10c;
+  --brand-ink: #1b1f13;
+  --brand-ink-soft: #2a311d;
+  --brand-muted: #5f6554;
+  --brand-border: #d7ddc7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--brand-bg);
+  color: var(--brand-ink);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.bg-brand-bg {
+  background-color: var(--brand-bg);
+}
+
+.bg-brand-card {
+  background-color: var(--brand-card);
+}
+
+.bg-brand-soft {
+  background-color: var(--brand-soft);
+}
+
+.bg-brand-accent {
+  background-color: var(--brand-accent);
+}
+
+.hover\:bg-brand-accent:hover {
+  background-color: var(--brand-accent);
+}
+
+.hover\:bg-brand-accent-strong:hover {
+  background-color: var(--brand-accent-strong);
+}
+
+.bg-brand-ink {
+  background-color: var(--brand-ink);
+}
+
+.hover\:bg-brand-ink-soft:hover {
+  background-color: var(--brand-ink-soft);
+}
+
+.text-brand-ink {
+  color: var(--brand-ink);
+}
+
+.hover\:text-brand-ink:hover {
+  color: var(--brand-ink);
+}
+
+.text-brand-muted {
+  color: var(--brand-muted);
+}
+
+.border-brand-border {
+  border-color: var(--brand-border);
+}
+
+.focus\:border-brand-accent:focus {
+  border-color: var(--brand-accent);
+}
+
+.focus\:ring-brand-accent\/40:focus {
+  --tw-ring-color: rgba(166, 196, 13, 0.4);
+}
