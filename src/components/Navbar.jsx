@@ -1,18 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { clearAuthSession, getAuthSession } from "../utils/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [theme, setTheme] = useState("light");
   const session = getAuthSession();
   const adminAuthenticated = session?.role === "admin";
   const customerAuthenticated = session?.role === "customer";
+
+  useEffect(() => {
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    setTheme(currentTheme);
+  }, []);
 
   const handleLogout = () => {
     clearAuthSession();
     setMobileOpen(false);
     navigate("/");
+  };
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    localStorage.setItem("carwash_theme", nextTheme);
   };
 
   const closeMenu = () => setMobileOpen(false);
@@ -51,6 +64,7 @@ export default function Navbar() {
           </button>
 
           <div className="hidden items-center gap-2 md:flex">
+           
             <NavLink to="/" className={navButtonClass}>
               Home
             </NavLink>
@@ -87,12 +101,27 @@ export default function Navbar() {
               >
                 Logout
               </button>
+              
             )}
+             <button
+              type="button"
+              onClick={toggleTheme}
+              className="rounded-md bg-brand-soft px-3 py-2 text-sm font-semibold text-brand-muted transition-colors hover:bg-brand-accent hover:text-brand-ink"
+            >
+              {theme === "light" ? "Dark" : "Light"}
+            </button>
           </div>
         </div>
 
         {mobileOpen && (
           <div className="mt-4 space-y-2 md:hidden">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="block w-full rounded-md bg-brand-soft px-3 py-2 text-left text-sm font-semibold text-brand-muted transition-colors hover:bg-brand-accent hover:text-brand-ink"
+            >
+              Switch to {theme === "light" ? "Dark" : "Light"} Mode
+            </button>
             <NavLink to="/" onClick={closeMenu} className={(state) => navButtonClass(state, true)}>
               Home
             </NavLink>
