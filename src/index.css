@@ -19,6 +19,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+[data-theme="dark"] {
+  --brand-bg: #10130f;
+  --brand-card: #171c15;
+  --brand-soft: #2a3323;
+  --brand-accent: #9bb70f;
+  --brand-accent-strong: #afca1a;
+  --brand-ink: #e8ecd9;
+  --brand-ink-soft: #cfd9b5;
+  --brand-muted: #a9b295;
+  --brand-border: #313c2b;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -85,4 +97,12 @@ body {
 
 .focus\:ring-brand-accent\/40:focus {
   --tw-ring-color: rgba(166, 196, 13, 0.4);
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--brand-card) !important;
+}
+
+[data-theme="dark"] .bg-white\/90 {
+  background-color: rgba(23, 28, 21, 0.92) !important;
 }
