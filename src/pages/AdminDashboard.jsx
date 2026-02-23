@@ -158,6 +158,18 @@ export default function AdminDashboard() {
     }
   };
 
+  const deleteBooking = async (bookingId) => {
+    const ok = window.confirm("Delete this finished booking permanently? This cannot be undone.");
+    if (!ok) return;
+
+    try {
+      await API.delete(`/bookings/${bookingId}`);
+      await loadDashboardData();
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to delete booking");
+    }
+  };
+
   const renderOrdersTable = (rows, mode) => (
     <div className="overflow-hidden rounded-2xl border border-brand-border bg-white shadow-sm">
       <div className="overflow-x-auto">
@@ -170,7 +182,7 @@ export default function AdminDashboard() {
               <th className="p-4">Date</th>
               <th className="p-4">Time</th>
               <th className="p-4">Status</th>
-              {mode !== "completed" && <th className="p-4">Actions</th>}
+              <th className="p-4">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -186,31 +198,36 @@ export default function AdminDashboard() {
                     {booking.status}
                   </span>
                 </td>
-                {mode !== "completed" && (
-                  <td className="p-4">
-                    <div className="flex flex-wrap gap-2">
-                      {mode === "waiting" && (
-                        <>
-                          <button type="button" onClick={() => updateBooking(booking._id, { status: "Approved" })} className="rounded-md bg-emerald-100 px-2 py-1 text-xs font-semibold text-emerald-800">Approve</button>
-                          <button type="button" onClick={() => updateBooking(booking._id, { status: "Rejected" })} className="rounded-md bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-700">Reject</button>
-                        </>
-                      )}
-                      {mode === "active" && (
-                        <>
-                          <button type="button" onClick={() => updateBooking(booking._id, { status: "In Progress" })} className="rounded-md bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-800">In Progress</button>
-                          <button type="button" onClick={() => updateBooking(booking._id, { status: "Completed" })} className="rounded-md bg-brand-soft px-2 py-1 text-xs font-semibold text-brand-ink">Complete</button>
-                          <button type="button" onClick={() => updateBooking(booking._id, { status: "Rejected" })} className="rounded-md bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-700">Reject</button>
-                        </>
-                      )}
+                <td className="p-4">
+                  <div className="flex flex-wrap gap-2">
+                    {mode === "waiting" && (
+                      <>
+                        <button type="button" onClick={() => updateBooking(booking._id, { status: "Approved" })} className="rounded-md bg-emerald-100 px-2 py-1 text-xs font-semibold text-emerald-800">Approve</button>
+                        <button type="button" onClick={() => updateBooking(booking._id, { status: "Rejected" })} className="rounded-md bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-700">Reject</button>
+                      </>
+                    )}
+                    {mode === "active" && (
+                      <>
+                        <button type="button" onClick={() => updateBooking(booking._id, { status: "In Progress" })} className="rounded-md bg-blue-100 px-2 py-1 text-xs font-semibold text-blue-800">In Progress</button>
+                        <button type="button" onClick={() => updateBooking(booking._id, { status: "Completed" })} className="rounded-md bg-brand-soft px-2 py-1 text-xs font-semibold text-brand-ink">Complete</button>
+                        <button type="button" onClick={() => updateBooking(booking._id, { status: "Rejected" })} className="rounded-md bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-700">Reject</button>
+                      </>
+                    )}
+                    {mode !== "completed" && (
                       <button type="button" onClick={() => handleReschedule(booking)} className="rounded-md border border-brand-border bg-white px-2 py-1 text-xs font-semibold text-brand-muted">Reschedule</button>
-                    </div>
-                  </td>
-                )}
+                    )}
+                    {mode === "completed" && (
+                      <button type="button" onClick={() => deleteBooking(booking._id)} className="rounded-md bg-rose-100 px-2 py-1 text-xs font-semibold text-rose-700">
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </td>
               </tr>
             ))}
             {!loading && rows.length === 0 && (
               <tr>
-                <td className="p-6 text-center text-sm text-brand-muted" colSpan={mode === "completed" ? 6 : 7}>
+                <td className="p-6 text-center text-sm text-brand-muted" colSpan={7}>
                   No records in this section.
                 </td>
               </tr>
